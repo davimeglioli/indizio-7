@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Caccia al settimo indizio</title>
+  <style>
+    :root{
+      --ink:#243447;
+      --muted:#6b7c8c;
+      --primary:#4da3ff;
+      --primarySoft:#dff1ff;
+      --accent:#ffd66b;
+      --accentSoft:#fff6d9;
+      --mint:#8bd3c7;
+      --card:#ffffff;
+      --border:rgba(36,52,71,.10);
+      --okBg:#e6f9f4;
+      --okInk:#0f766e;
+      --noBg:#fff1f2;
+      --noInk:#be123c;
+      --radius:22px;
+      --shadow:0 12px 28px rgba(0,0,0,.08);
+      --max:920px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--ink);
+      min-height:100vh;
+      background:#fefefe;
+      position:relative;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      background:
+        radial-gradient(800px 500px at 15% 10%, var(--primarySoft), transparent 60%),
+        radial-gradient(700px 400px at 85% 15%, var(--accentSoft), transparent 60%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:24px 16px 56px;
+    }
+
+    header{
+      text-align:center;
+      margin-bottom:14px;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:var(--primarySoft);
+      border:1px solid rgba(77,163,255,.25);
+      color:#1e3a8a;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    h1{
+      margin:14px 0 8px;
+      font-size:clamp(24px,6vw,40px);
+      line-height:1.1;
+    }
+
+    .lead{
+      margin:0 auto;
+      max-width:62ch;
+      color:var(--muted);
+      font-size:15.5px;
+      line-height:1.55;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+      overflow:hidden;
+      margin-top:20px;
+    }
+
+    .hd{
+      padding:16px;
+      font-weight:900;
+      background:linear-gradient(135deg, var(--primarySoft), var(--accentSoft));
+      border-bottom:1px solid var(--border);
+    }
+
+    .bd{
+      padding:22px;
+      font-size:15px;
+      line-height:1.65;
+    }
+
+    .intro{
+      margin:0 0 16px;
+    }
+
+    .phrase-box{
+      background:#fff;
+      border:2px solid var(--mint);
+      border-radius:22px;
+      padding:20px 16px;
+      box-shadow:0 8px 20px rgba(0,0,0,.05);
+      text-align:center;
+    }
+
+    .bubble{
+      max-width:430px;
+      margin:0 auto 16px;
+      background:#fffdf6;
+      border:2px solid #f1c27b;
+      border-radius:36px;
+      padding:22px 20px;
+      position:relative;
+      box-shadow:0 6px 16px rgba(0,0,0,.04);
+    }
+
+    .bubble::after{
+      content:"";
+      position:absolute;
+      right:52px;
+      bottom:-16px;
+      width:26px;
+      height:26px;
+      background:#fffdf6;
+      border-right:2px solid #f1c27b;
+      border-bottom:2px solid #f1c27b;
+      transform:rotate(45deg);
+    }
+
+    .scramble{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px 16px;
+      justify-content:center;
+      align-items:center;
+      font-size:clamp(22px,5vw,34px);
+      font-weight:500;
+      letter-spacing:.3px;
+      line-height:1.2;
+    }
+
+    .word.big{font-size:1.25em}
+    .word.small{font-size:.8em}
+
+    .task{
+      margin-top:18px;
+      padding:14px;
+      border-radius:16px;
+      background:var(--accentSoft);
+      border:1px solid rgba(255,214,107,.4);
+      font-weight:800;
+      color:#92400e;
+      text-align:left;
+    }
+
+    label.title{
+      display:block;
+      margin-top:18px;
+      font-weight:900;
+    }
+
+    input[type="text"]{
+      width:100%;
+      margin-top:10px;
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(36,52,71,.15);
+      font-size:16px;
+      outline:none;
+      background:#fff;
+    }
+
+    input[type="text"]:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 4px rgba(77,163,255,.15);
+    }
+
+    .mapNote{
+      margin-top:16px;
+      padding:14px;
+      border-radius:16px;
+      background:var(--primarySoft);
+      border:1px solid rgba(77,163,255,.25);
+      font-weight:900;
+      color:#1e3a8a;
+    }
+
+    .btns{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      flex:1 1 160px;
+      min-height:46px;
+      border:none;
+      border-radius:16px;
+      font-weight:900;
+      cursor:pointer;
+      background:linear-gradient(180deg, var(--primary), #2f80ed);
+      color:white;
+      box-shadow:0 8px 18px rgba(77,163,255,.3);
+      transition:.12s ease;
+    }
+
+    button:hover{transform:translateY(-2px)}
+
+    button.reset{
+      background:#f1f5f9;
+      color:#334155;
+      box-shadow:none;
+      border:1px solid rgba(0,0,0,.08);
+    }
+
+    .msg{
+      margin-top:16px;
+      padding:14px;
+      border-radius:16px;
+      font-weight:900;
+      display:none;
+    }
+
+    .ok{display:block;background:var(--okBg);color:var(--okInk)}
+    .no{display:block;background:var(--noBg);color:var(--noInk)}
+
+    @media (min-width:760px){
+      .wrap{padding:30px 24px 70px}
+      button{flex:0 0 auto;min-width:180px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">🗺️ Gioco a indizi • livello 7</div>
+      <h1>Caccia al settimo indizio</h1>
+      <p class="lead">
+        In questo indizio trovi una frase famosa sul canto, ma le parole sono tutte in disordine.
+        Mettile nell’ordine giusto e scopri la frase misteriosa.
+      </p>
+    </header>
+
+    <section class="card">
+      <div class="hd">🎵 Rimetti in ordine la frase</div>
+      <div class="bd">
+        <p class="intro">
+          Quando una persona è particolarmente felice tende a fischiettare o a canticchiare un motivetto allegro. Lo fai anche tu? La musica occupa un posto importante nelle feste (perfino il compleanno ha la sua canzone) ed è una forma d’arte molto presente nella vita di tutti i giorni. Non può, quindi, mancare nella Messa che è la madre di tutte le feste.
+        </p>
+
+        <div class="phrase-box">
+          <div class="bubble" aria-label="Parole da riordinare">
+            <div class="scramble">
+              <span class="word big">Canta</span>
+              <span class="word small">prega</span>
+              <span class="word small">chi</span>
+              <span class="word small">volte</span>
+              <span class="word big">due</span>
+            </div>
+          </div>
+
+          <div class="task">
+            Scrivi la frase corretta nello spazio qui sotto.
+          </div>
+        </div>
+
+        <label class="title" for="phrase">✅ La soluzione del settimo indizio:</label>
+        <input id="phrase" type="text" placeholder="Scrivi qui la frase completa..." autocomplete="off" />
+
+        <div class="mapNote">
+          Hai trovato la frase misteriosa? Allora ricopiala nella <strong>casella del settimo indizio della mappa</strong>.
+        </div>
+
+        <div class="btns">
+          <button id="checkBtn" type="button">Controlla</button>
+          <button class="reset" id="resetBtn" type="button">Ricomincia</button>
+        </div>
+
+        <div id="message" class="msg" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const SOL_PHRASE = "CHI CANTA PREGA DUE VOLTE";
+
+    function normalize(s){
+      return (s || "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .toUpperCase();
+    }
+
+    const phraseEl = document.getElementById("phrase");
+    const msg = document.getElementById("message");
+    const checkBtn = document.getElementById("checkBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    checkBtn.addEventListener("click", () => {
+      const phraseOk = normalize(phraseEl.value) === SOL_PHRASE;
+      msg.style.display = "block";
+
+      if (phraseOk) {
+        msg.className = "msg ok";
+        msg.textContent = "Bravissimo/a! 🎉 Hai trovato il settimo indizio!";
+      } else {
+        msg.className = "msg no";
+        msg.textContent = "Riprova 😊 Rimetti le parole nell’ordine giusto e riscrivi la frase completa.";
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      phraseEl.value = "";
+      msg.style.display = "none";
+      msg.className = "msg";
+      phraseEl.focus();
+    });
+  </script>
+</body>
+</html>
